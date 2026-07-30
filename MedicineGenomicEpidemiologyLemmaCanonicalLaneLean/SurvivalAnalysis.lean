@@ -1,0 +1,29 @@
+import canonicalLaneMathlib.AdmissibleClass
+
+namespace HautevilleHouse
+namespace MedicineGenomicEpidemiologyLemmaCanonicalLaneLean
+
+structure SurvivalAnalysisPackage where
+  timeToEvent : Type
+  censoringIndicator : Type
+  hazardFunction : Float -> Float
+  survivalFunction : Float -> Float
+  kaplanMeierEstimator : Prop
+  coxProportionalHazards : Prop
+  logRankTest : Prop
+
+structure SurvivalAnalysisEvidence (S : SurvivalAnalysisPackage) where
+  kaplanMeierEstimatorClosed : S.kaplanMeierEstimator
+  coxProportionalHazardsClosed : S.coxProportionalHazards
+  logRankTestClosed : S.logRankTest
+
+def SurvivalAnalysisClosed (S : SurvivalAnalysisPackage) : Prop :=
+  S.kaplanMeierEstimator ∧ S.coxProportionalHazards ∧ S.logRankTest
+
+theorem survival_analysis_closed_from_evidence (S : SurvivalAnalysisPackage)
+    (E : SurvivalAnalysisEvidence S) : SurvivalAnalysisClosed S := by
+  exact And.intro E.kaplanMeierEstimatorClosed
+    (And.intro E.coxProportionalHazardsClosed E.logRankTestClosed)
+
+end MedicineGenomicEpidemiologyLemmaCanonicalLaneLean
+end HautevilleHouse
